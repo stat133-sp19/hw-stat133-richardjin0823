@@ -1,0 +1,133 @@
+---
+title: "Getting Started with Binomial"
+author: "Richard Jin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Binomial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+library(Binomial)
+```
+
+##Binomial 
+The package "binomial" gives users access to essential binomial functions that will enable users to calculate key statistics for any binomial distribution with valid parameters. There are private checker functions in place to ensure the parameters are valid. The package also allows users to obtain summaries of these statistics. With functions and methods, the package can also generate tables that detail the probabilities of a binomial distribution for all valid successes and generate graphs that can help visualize the binomial distribution in the form of probability histograms and cumulative probability line graphs. 
+
+##Binomial Statistics Functions
+The first component of binomial package is that it helps users calculate key binomial statistics for valid parameters. These statistics include mean, variance, mode, skewness (asymmetry of the probability distribution), and kurtosis (tailedness of the probability distribution). These can all be calculated with the parameters: number of trials and probability of success. Here, we will set number of trials as 10, and probability of success as 0.3 for demonstration. 
+
+###Mean
+```{r}
+bin_mean(10, 0.3)
+```
+
+###Variance
+```{r}
+bin_variance(10, 0.3)
+```
+
+###Mode
+```{r}
+bin_mode(10, 0.3)
+```
+
+###Skewness
+```{r}
+bin_skewness(10, 0.3)
+```
+
+###Kurtosis 
+```{r}
+bin_kurtosis(10, 0.3)
+```
+
+##Binomial Probability Functions
+The package also contains functions that enable users to calculate the specific probability of a binomial distribution with a specified number of successes, under the parameters of number of trials and probability of success.
+
+###Binomial Choose (bin_choose())
+This function enables users to find the number of combinations in which k success can occur in n trials. In this example we will calculate the number of possible combinations for 2 successes when we have 5 trials.  
+```{r}
+bin_choose(n = 5, k = 2)
+```
+
+Binomial Choose can also be simultaneously calculated for multiple values of successes. 
+```{r}
+bin_choose(n = 5, k = 1:3)
+```
+
+
+###Binomial Probability (bin_prob())
+This function incorporates Binomial Choose (built inside Binomial Probability) to find the probability of a specified number of successes under the parameters of specified number of trials and probability of success. For this example, we will calculate the probability of 2 successes when we have 5 trials, and the probability of success is 0.5. 
+```{r}
+bin_probability(success = 2, trials = 5, prob = 0.5)
+```
+
+Similar to Binomial Choose, Binomial Probability can also simultaneously calculate for multiple values of successes. 
+
+```{r}
+bin_probability(success = 0:2, trials = 5, prob = 0.5)
+```
+
+##Binomial Distribution Functions
+The package contains functions that will allow users to generate the entire binomial distribution (all probabilities for all possible successes) for specified parameters: number of trials and probability of success. The methods within this package will also enable users to directly plot the histogram of binomial distribution probabilities and the line graph of cumulative binomial distribution probabilities. 
+
+###Binomial Distribution (bin_distribution())
+This function takes in number of trials and probability as parameters and outputs a data frame that shows the probability of each possible success within the specified number of trials. Here, we will set number of trials as 5 and probability as 0.5 to demonstrate.
+```{r}
+bin_distribution(trials = 5, prob = 0.5)
+```
+
+####Binomial Distribution Plot
+A built-in method enables us to directly plot the data frame of Binomial Distribution in the form of a histogram. The histogram will only appear if the class of the input is "bindis", which the data frame from Binomial Distribution is. We will use the same parameters as the previous example. 
+```{r}
+bin1 <- bin_distribution(trials = 5, prob = 0.5)
+plot(bin1)
+```
+
+###Binomial Cumulative (bin_cumulative())
+This function outputs a similar data frame, but has an additional column that details the cumulative probability of the binomial distribution across all the trials. The cumulative probability will always equal one at the largest possible value of success, which is equal to number of trials. Here, we will set number of trials as 5 and probability as 0.5 to demonstrate.
+```{r}
+bin_cumulative(trials = 5, prob = 0.5)
+```
+
+####Binomial Cumulative Plot
+Similarly, Binomial Cumulative also has a method that enables use to plot a line graph which displays how the cumulative probability rises across number of successes. The histogram will only appear if the input's class is "bincum", which the data frame from Binomial Cumulative is. We will use the same parameters as the previous example.
+```{r}
+bin1 <- bin_cumulative(trials = 5, prob = 0.5)
+plot(bin1)
+```
+
+
+##Binomial Summary Functions
+This package also contains several functions and methods that enable us to summarize the parameters and statistics associated with a binomial distribution of specified number of trials and successes. 
+
+###Binomial Variable (bin_variable())
+This function takes in two inputs: number of trials and probability, checks their validity, and returns a list that details the number of trials and probability. We will set number of trials to 10 and probability to 0.3 to demonstrate. 
+```{r}
+bin_variable(trials = 10, p = 0.3)
+```
+
+####Binomial Variable Print
+Binomial Variable has a print method that can print the content of the aforementioned list in a clean manner. This method will only work if the object has classs of "binvar", which the list from Binomial Variable is. We wil use the previous example to demonstrate.
+```{r}
+bin1 <- bin_variable(trials = 10, p = 0.3)
+bin1
+```
+
+####Binomial Variable Summary and Print  
+Binomial Variable has another summarize method that produces a list and provides all of the relevant statistics associated with the inputted binomial distribution. The list not only contains number of trials and probability, but also includes mean, variance, mode, skewness, and kurtosis. This method only works if the object has class "binvar". However, the resultant list is not visually pleasing, which is why we created a separate print method. This method allows us to display Binomial Variable Summary in a more visually pleasing way. This method only works if the object has class "summary.binvar", which the previous Binomial Variable Summary does. We will use the same parameters as previous examples to demonstrate.
+```{r}
+bin1 <- bin_variable(trials = 10, p = 0.3)
+binsum1 <- summary(bin1)
+binsum1
+```
+
+
+
+
+
+
